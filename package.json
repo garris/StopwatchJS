@@ -1,0 +1,15 @@
+{
+  "name": "stopwatch",
+  "version": "1.0.0",
+  "description": "It's a Javascript stopwatch object library with some useful functions for performance testing Javascript app internals.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gShipon",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3"
+  }
+}
