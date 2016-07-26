@@ -27,18 +27,19 @@ describe("stopwatch defaults", function() {
       expect(sw.isRunning()).to.be.false;
       expect(sw.stopTime).to.be.above(0);
     });
-    // it('default resolution is 1ms', function() {
-    //   sw = new Stopwatch();
-    //   doBusyWork(0)
-    //   sw.stop(true);
-    //   expect(sw.selfTime).to.be.equal(0); //this could fail -- just fudging here.
-    // });
-    // it('setting resolution works', function() {
-    //   sw = new Stopwatch('test resolution', 10);
-    //   doBusyWork(0)
-    //   sw.stop(true);
-    //   expect(sw.selfTime).to.be.above(0); // this could also fail -- just fudging here.
-    // });
+
+    it('default resolution is rounded to the whole ms', function() {
+      sw = new Stopwatch('resolution-test-1');
+      doBusyWork(50);
+      sw.stop();
+      expect(/^\d\d$/.test(sw.getStopTime(true).toString())).to.be.true; // this is a crude test for a non-decimal value
+    });
+    it('increasing resolution works', function() {
+      sw = new Stopwatch('resolution-test-2', 10);
+      doBusyWork(50);
+      sw.stop();
+      expect(/^\d\d\.\d+/.test(sw.getStopTime(true).toString())).to.be.true; // this is a crude test for a decimal value
+    });
   });
 
 
@@ -50,9 +51,9 @@ describe("stopwatch defaults", function() {
       sw.stop(true);
       expect(sw.selfTime).to.be.within(95, 105);
       sw.start();
-      doBusyWork(100);
+      doBusyWork(160);
       sw.stop(true);
-      expect(sw.selfTime).to.be.within(95, 105);
+      expect(sw.selfTime).to.be.within(155, 165);
     });
   });
 
@@ -67,9 +68,31 @@ describe("stopwatch defaults", function() {
       doBusyWork(75);
       sw.lap('last', true);
       sw.stop(true);
-      expect(sw.selfTime).to.be.within(220, 230);
-      expect(sw.getAvgLapTime(true)).to.be.within(70, 80);
-      expect(sw.getAvgLapTime(true, 2)).to.be.within(61, 64 );
+      expect(sw.selfTime).to.be.within(224, 226);
+      expect(sw.getAvgLapTime(true)).to.be.within(74, 76);
+      expect(sw.getAvgLapTime(true, 2)).to.be.within(61.5, 63.5);
+      expect(sw.getAvgLapTime(true, -2)).to.be.within(74, 76);
+
+      var rts = sw.getLaps('running');
+      var sts = sw.getLaps('self');
+      var labels = sw.getLaps().map(function(o) {return o.label});
+
+      expect(rts[0]).to.be.within(99, 101);
+      expect(rts[1]).to.be.within(149, 151);
+      expect(rts[2]).to.be.within(224, 226);
+
+      expect(sts[0]).to.be.within(99, 101);
+      expect(sts[1]).to.be.within(49, 51);
+      expect(sts[2]).to.be.within(74, 76);
+
+      expect(labels[0]).to.equal('first');
+      expect(labels[1]).to.equal('lap');
+      expect(labels[2]).to.equal('last');
+
+      expect(sw.getLapMean(true)).to.equal(75);
+      expect(sw.getLapStdDev(true)).to.within(19, 21);
+
+      console.log('lap dump', sw.getLaps(), rts, sts, labels)
     });
   });
 
