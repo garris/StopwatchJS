@@ -13,19 +13,23 @@ describe("stopwatch defaults", function() {
   describe("arguments test", function(){
     it('starts when initalized by default', function() {
       sw = new Stopwatch();
+      doBusyWork(50);
       expect(sw.isRunning()).to.be.true;
       expect(sw.startTime).to.be.above(0);
-      expect(sw.stopTime).to.be.equal(0);
+      expect(sw.getStopTime()).to.be.equal(0);
     });
     it('is optionally stopped when initalized', function() {
       sw = new Stopwatch('stopped on init', null, false);
+      doBusyWork(50);
       expect(sw.isRunning()).to.be.false;
+      expect(sw.getStopTime()).to.be.equal(0);
     });
     it('stops when stopped', function() {
       sw = new Stopwatch();
+      doBusyWork(50);
       sw.stop(true);
       expect(sw.isRunning()).to.be.false;
-      expect(sw.stopTime).to.be.above(0);
+      expect(sw.getStopTime()).to.be.above(0);
     });
 
     it('default resolution is rounded to the whole ms', function() {

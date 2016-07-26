@@ -63,6 +63,6 @@ Returns true if start has been called and stop has not yet been called.
 ##Usage Notes
 
 1. `start()` and `stop()` can be called in multiple succession. _Call start anytime to reset the stopwatch.  Calling stop multiple times will return the duration from the last start to the current stop._
-2. Alternatively, call `start()` once and then call `lap()` multiple times to record elapsed durations. Calling `stop()` still returns the time elapsed since the last `start()` call.
-3. Another variation is calling `start()` and `stopLap()` in succession. This allows you to store multiple `start()` ... `stop()` durations to the lap store -- this is useful for explicitly recording non-contiguous lap durations.
-4. Call `getAvgLapTime()` for an average of all lap times recorded.
+2. Alternatively, call `start()` once and then call `lap()` multiple times to record elapsed running time and duration since last lap. Calling `stop()` returns the time elapsed since the last `start()` call. This is useful for profiling loop processes.
+3. Another variation is calling `start()` and `stopLap()` in sequence. This allows you to store multiple `start()` ... `stop()` durations to the lap store. This is useful for profiling event handlers.
+4. Use `sw.getLaps()`, `sw.getLapMean()`, `sw.getLapStdDev()` methods for quick analysis after collecting data with #2 & #3 above.
