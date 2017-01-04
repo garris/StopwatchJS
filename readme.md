@@ -36,7 +36,7 @@ Lap pushes a lap object into an internal array `sw.laps`.  Lap objects include t
 ### The advanced stuff
 
 `sw.stopLap(toConsole);` 
-Call this after calling `sw.start()`. This works just like `sw.stop()` but pushes the start-stop duration you just captured into the lap array.  Call `sw.start()` - `sw.stopLap()` every time you want to capture a process duration. This is useful for profiling event handlers. Just remember to always call `start()` each time before calling `stopLap()` or your results will be wacked.
+Call this after calling `sw.start()`. This works just like `sw.stop()` but pushes the start-stop duration you just captured into the lap array.  Call `sw.start()` _then_ `sw.stopLap()` every time you want to capture a process duration. This is useful for profiling event handlers. Just remember to always call `start()` each time before calling `stopLap()` or your results will be wacked.
 
 
 `sw.getLaps(filterBy)`
